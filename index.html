@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dancing Dog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .title {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .dog-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        .dog {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Head */
+        .head {
+            position: absolute;
+            width: 120px;
+            height: 100px;
+            background: #d4a574;
+            border-radius: 50% 50% 45% 45%;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: headBob 0.5s ease-in-out infinite alternate;
+        }
+
+        /* Ears */
+        .ear {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            background: #b8875e;
+            border-radius: 50%;
+            animation: earFlap 0.6s ease-in-out infinite alternate;
+        }
+
+        .ear-left {
+            top: 10px;
+            left: -15px;
+            transform-origin: top right;
+        }
+
+        .ear-right {
+            top: 10px;
+            right: -15px;
+            transform-origin: top left;
+            animation-delay: 0.3s;
+        }
+
+        /* Eyes */
+        .eyes {
+            position: absolute;
+            width: 100%;
+            top: 35px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 25px;
+        }
+
+        .eye {
+            width: 20px;
+            height: 20px;
+            background: #000;
+            border-radius: 50%;
+            position: relative;
+            animation: blink 3s ease-in-out infinite;
+        }
+
+        .eye::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+        }
+
+        /* Nose */
+        .nose {
+            position: absolute;
+            width: 25px;
+            height: 20px;
+            background: #000;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Mouth */
+        .mouth {
+            position: absolute;
+            width: 50px;
+            height: 30px;
+            border: 3px solid #000;
+            border-top: none;
+            border-radius: 0 0 50% 50%;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tongue {
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            background: #ff6b9d;
+            border-radius: 0 0 50% 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: tongueWag 0.4s ease-in-out infinite;
+        }
+
+        /* Body */
+        .body {
+            position: absolute;
+            width: 140px;
+            height: 120px;
+            background: #d4a574;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bodyWiggle 0.5s ease-in-out infinite;
+        }
+
+        /* Tail */
+        .tail {
+            position: absolute;
+            width: 80px;
+            height: 20px;
+            background: #d4a574;
+            border-radius: 50%;
+            top: 130px;
+            right: -20px;
+            transform-origin: left center;
+            animation: tailWag 0.3s ease-in-out infinite;
+        }
+
+        /* Legs */
+        .legs {
+            position: absolute;
+            width: 100%;
+            top: 200px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 60px;
+        }
+
+        .leg {
+            width: 30px;
+            height: 100px;
+            background: #d4a574;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .leg-front-left {
+            animation: legKick 0.4s ease-in-out infinite;
+        }
+
+        .leg-front-right {
+            animation: legKick 0.4s ease-in-out infinite 0.2s;
+        }
+
+        .leg-back-left {
+            animation: legKick 0.4s ease-in-out infinite 0.1s;
+        }
+
+        .leg-back-right {
+            animation: legKick 0.4s ease-in-out infinite 0.3s;
+        }
+
+        .paw {
+            position: absolute;
+            width: 35px;
+            height: 25px;
+            background: #b8875e;
+            border-radius: 50%;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Music notes */
+        .music-notes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .note {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .note:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .note:nth-child(2) { top: 20%; right: 10%; animation-delay: 0.5s; }
+        .note:nth-child(3) { bottom: 30%; left: 15%; animation-delay: 1s; }
+        .note:nth-child(4) { bottom: 20%; right: 15%; animation-delay: 1.5s; }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        @keyframes headBob {
+            0% { transform: translateX(-50%) rotate(-5deg); }
+            100% { transform: translateX(-50%) rotate(5deg); }
+        }
+
+        @keyframes earFlap {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-15deg); }
+        }
+
+        @keyframes blink {
+            0%, 45%, 55%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.1); }
+        }
+
+        @keyframes tongueWag {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(5px); }
+        }
+
+        @keyframes bodyWiggle {
+            0%, 100% { transform: translateX(-50%) rotate(-3deg); }
+            50% { transform: translateX(-50%) rotate(3deg); }
+        }
+
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(-30deg); }
+            50% { transform: rotate(30deg); }
+        }
+
+        @keyframes legKick {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(180deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            .dog-container {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🎵 Dancing Dog 🎵</h1>
+        <div class="dog-container">
+            <div class="dog">
+                <div class="head">
+                    <div class="ear ear-left"></div>
+                    <div class="ear ear-right"></div>
+                    <div class="eyes">
+                        <div class="eye"></div>
+                        <div class="eye"></div>
+                    </div>
+                    <div class="nose"></div>
+                    <div class="mouth">
+                        <div class="tongue"></div>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="tail"></div>
+                </div>
+                <div class="legs">
+                    <div class="leg leg-front-left">
+                        <div class="paw"></div>
+                    </div>
+                    <div class="leg leg-front-right">
+                        <div class="paw"></div>
+                    </div>
+                    <div class="leg leg-back-left">
+                        <div class="paw"></div>
+                    </div>
+                    <div class="leg leg-back-right">
+                        <div class="paw"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="music-notes">
+                <div class="note">🎵</div>
+                <div class="note">🎶</div>
+                <div class="note">🎵</div>
+                <div class="note">🎶</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
